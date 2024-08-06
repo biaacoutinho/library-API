@@ -1,9 +1,12 @@
 package com.unicamp.library_api.author;
 
+import com.unicamp.library_api.author.DTO.AuthorRequestPayload;
 import com.unicamp.library_api.book.Book;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,4 +28,9 @@ public class Author {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books;
+
+    public Author (AuthorRequestPayload data) {
+        this.name = data.name();
+        this.books = null;
+    }
 }
