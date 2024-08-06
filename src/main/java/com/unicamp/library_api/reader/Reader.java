@@ -1,0 +1,45 @@
+package com.unicamp.library_api.reader;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Entity
+@Table(name = "reader")
+public class Reader {
+    @Id
+    private String cpf;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
+    private String cep;
+
+    private String streetName;
+
+    private String neighborhood;
+
+    private String city;
+
+    private String uf;
+}

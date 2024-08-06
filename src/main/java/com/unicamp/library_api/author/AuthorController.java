@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,12 +28,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/authors")
 public class AuthorController {
     @Autowired
-    private AuthorRepository authorRepository;
+    private AuthorRepository repository;
 
     @GetMapping
     public List<AuthorData> getAll()
     {
-        List<Author> authors = this.authorRepository.findAll();
+        List<Author> authors = this.repository.findAll();
 
         List<AuthorData> list = authors.stream().map(author -> new AuthorData(author.getId(), author.getName(), author.getBooks() != null? author.getBooks().stream().map(Book::getTitle).collect(Collectors.toList()) : null)).toList();
         
@@ -48,7 +45,7 @@ public class AuthorController {
     {
         Author newAuthor = new Author(payload);
 
-        Author created = this.authorRepository.save(newAuthor);
+        Author created = this.repository.save(newAuthor);
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -61,12 +58,12 @@ public class AuthorController {
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateAuthor(@PathVariable UUID id, @RequestBody AuthorRequestPayload payload) 
     {
-        Author current = this.authorRepository.findById(id)
+        Author current = this.repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Could not fetch author with specified id"));
             
         Author newAuthor = new Author(current.getId(), payload.name(), current.getBooks());
 
-        Author updated = this.authorRepository.save(newAuthor);
+        Author updated = this.repository.save(newAuthor);
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -78,10 +75,10 @@ public class AuthorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> delete(@PathVariable("id") UUID id) {
-        Author exists = this.authorRepository.findById(id)
+        Author exists = this.repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Could not find author with specified id"));
 
-        this.authorRepository.deleteById(id);
+        this.repository.deleteById(id);
 
         return ResponseEntity
             .status(HttpStatus.OK)
