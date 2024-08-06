@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,5 +74,17 @@ public class AuthorController {
                 "Successfully updated author",
                 new AuthorResponse(updated.getId(), updated.getName())
         ));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> delete(@PathVariable("id") UUID id) {
+        Author exists = this.authorRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find author with specified id"));
+
+        this.authorRepository.deleteById(id);
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(new Response("Successfully deleted worker with specified id", null));
     }
 }
