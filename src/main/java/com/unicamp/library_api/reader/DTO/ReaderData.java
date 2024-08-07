@@ -2,8 +2,8 @@ package com.unicamp.library_api.reader.DTO;
 
 public record ReaderData(
     String cpf,
-    String nome,
+    String name,
     String email,
-    String telefone,
+    String phone,
     String cep
 ) {}

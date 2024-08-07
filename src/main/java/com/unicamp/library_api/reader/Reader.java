@@ -1,5 +1,7 @@
 package com.unicamp.library_api.reader;
 
+import com.unicamp.library_api.reader.DTO.ReaderData;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -42,4 +44,13 @@ public class Reader {
     private String city;
 
     private String uf;
+
+    public Reader(ReaderData payload)
+    {
+        this.cpf = payload.cpf();
+        this.name = payload.name();
+        this.email = payload.email();
+        this.phone = payload.phone();
+        this.cep = payload.cep();
+    }
 }

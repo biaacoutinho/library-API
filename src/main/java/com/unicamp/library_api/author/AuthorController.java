@@ -82,6 +82,6 @@ public class AuthorController {
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(new Response("Successfully deleted worker with specified id", null));
+            .body(new Response("Successfully deleted author with specified id", null));
     }
 }
