@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,13 @@ public class AuthorController {
         List<AuthorData> list = authors.stream().map(author -> new AuthorData(author.getId(), author.getName(), author.getBooks() != null? author.getBooks().stream().map(Book::getTitle).collect(Collectors.toList()) : null)).toList();
         
         return list;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Author> getTripDetails(@PathVariable UUID id) {
+        Optional<Author> author = this.repository.findById(id);
+
+        return author.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping

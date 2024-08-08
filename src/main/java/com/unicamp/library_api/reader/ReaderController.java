@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicamp.library_api.Response;
-import com.unicamp.library_api.author.Author;
 import com.unicamp.library_api.cep.Address;
 import com.unicamp.library_api.cep.PostmonClient;
 import com.unicamp.library_api.reader.DTO.ReaderData;
@@ -43,6 +42,13 @@ public class ReaderController {
         return list;
     }
 
+    @GetMapping("/{cpf}")
+    public ResponseEntity<Reader> getTripDetails(@PathVariable String cpf) {
+        Optional<Reader> reader = this.repository.findByCpf(cpf);
+
+        return reader.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Response> create(@RequestBody ReaderData body)
     {
@@ -67,10 +73,7 @@ public class ReaderController {
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Response> delete(@PathVariable("cpf") String cpf) {
-        System.out.println(cpf);
         Optional<Reader> reader = this.repository.findByCpf(cpf);
-
-        System.out.println(reader.toString());
 
         if (reader.isPresent()) {
 
