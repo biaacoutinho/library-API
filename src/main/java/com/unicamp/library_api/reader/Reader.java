@@ -50,7 +50,7 @@ public class Reader {
 
     private String uf;
 
-    @OneToMany(mappedBy = "loan_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reader", cascade = CascadeType.ALL)
     private List<Loan> loans;
 
     public Reader(ReaderData payload)

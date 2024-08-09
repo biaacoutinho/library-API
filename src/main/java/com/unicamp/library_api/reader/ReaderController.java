@@ -2,7 +2,6 @@ package com.unicamp.library_api.reader;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,6 @@ import com.unicamp.library_api.cep.Address;
 import com.unicamp.library_api.cep.PostmonClient;
 import com.unicamp.library_api.reader.DTO.ReaderData;
 import com.unicamp.library_api.reader.DTO.ReaderResponse;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/readers")
@@ -43,7 +40,7 @@ public class ReaderController {
     }
 
     @GetMapping("/{cpf}")
-    public ResponseEntity<Reader> getTripDetails(@PathVariable String cpf) {
+    public ResponseEntity<Reader> getReader(@PathVariable String cpf) {
         Optional<Reader> reader = this.repository.findByCpf(cpf);
 
         return reader.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

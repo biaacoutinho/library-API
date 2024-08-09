@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.unicamp.library_api.book.Book;
+import com.unicamp.library_api.publisher.DTO.PublisherRequestPayload;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -41,4 +42,11 @@ public class Publisher {
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     private List<Book> books;
+
+    public Publisher(PublisherRequestPayload payload)
+    {
+        this.name = payload.name();
+        this.email = payload.email();
+        this.books = null;
+    }
 }
