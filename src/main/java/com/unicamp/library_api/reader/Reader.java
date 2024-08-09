@@ -1,10 +1,15 @@
 package com.unicamp.library_api.reader;
 
+import java.util.List;
+
+import com.unicamp.library_api.loan.Loan;
 import com.unicamp.library_api.reader.DTO.ReaderData;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -44,6 +49,9 @@ public class Reader {
     private String city;
 
     private String uf;
+
+    @OneToMany(mappedBy = "loan_id", cascade = CascadeType.ALL)
+    private List<Loan> loans;
 
     public Reader(ReaderData payload)
     {
