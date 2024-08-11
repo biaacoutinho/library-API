@@ -1,10 +1,14 @@
 package com.unicamp.library_api.loan;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.cglib.core.Local;
+
 import com.unicamp.library_api.author.Author;
 import com.unicamp.library_api.book.Book;
+import com.unicamp.library_api.loan.DTO.LoanRequestPayload;
 import com.unicamp.library_api.reader.Reader;
 
 import jakarta.persistence.Column;
@@ -36,16 +40,24 @@ public class Loan {
     private UUID id;
 
     @Column(name = "loan_date", nullable = false)
-    private LocalDateTime loanDate;
+    private LocalDate loanDate;
 
     @Column(name = "return_date", nullable = false)
-    private LocalDateTime returnDate;
+    private LocalDate returnDate;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
+    @JoinColumn(name = "book_isbn", nullable = false)
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "reader_cpf", nullable = false)
     private Reader reader;
+
+    public Loan(Book book, Reader reader)
+    {
+        this.loanDate = LocalDate.now();
+        this.returnDate = this.loanDate.plusDays(15);
+        this.book = book;
+        this.reader = reader;
+    }
 }

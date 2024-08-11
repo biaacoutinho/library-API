@@ -42,7 +42,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getTripDetails(@PathVariable UUID id) {
+    public ResponseEntity<Author> getAuthors(@PathVariable UUID id) {
         Optional<Author> author = this.repository.findById(id);
 
         return author.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

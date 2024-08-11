@@ -21,14 +21,10 @@ import java.util.UUID;
 @Table(name = "book")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private String isbn;
 
     @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
-    private String isbn;
 
     @Column(nullable = false)
     private String location;
