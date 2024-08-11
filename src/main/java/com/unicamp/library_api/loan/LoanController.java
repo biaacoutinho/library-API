@@ -82,5 +82,4 @@ public class LoanController {
                 new LoanResponse(created.getId(), reader.getName(), book.getTitle(), created.getLoanDate(), created.getReturnDate())
             ));
     }
-
 }
