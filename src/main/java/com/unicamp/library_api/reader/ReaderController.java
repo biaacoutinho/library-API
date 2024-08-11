@@ -78,7 +78,7 @@ public class ReaderController {
 
             return ResponseEntity
             .status(HttpStatus.OK)
-            .body(new Response("Successfully deleted reader with specified id", null));
+            .body(new Response("Successfully deleted reader with specified cpf", null));
         }
 
         return ResponseEntity

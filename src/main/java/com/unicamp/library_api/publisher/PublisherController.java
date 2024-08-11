@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,14 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unicamp.library_api.Response;
-import com.unicamp.library_api.author.Author;
-import com.unicamp.library_api.author.DTO.AuthorRequestPayload;
-import com.unicamp.library_api.author.DTO.AuthorResponse;
 import com.unicamp.library_api.book.Book;
 import com.unicamp.library_api.publisher.DTO.PublisherData;
 import com.unicamp.library_api.publisher.DTO.PublisherRequestPayload;
 import com.unicamp.library_api.publisher.DTO.PublisherResponse;
-import com.unicamp.library_api.reader.DTO.ReaderData;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/publishers")
@@ -49,7 +48,7 @@ public class PublisherController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> createPublishers(@RequestBody PublisherRequestPayload payload)
+    public ResponseEntity<Response> create(@RequestBody PublisherRequestPayload payload)
     {
         Publisher newPublisher = new Publisher(payload);
 
@@ -61,7 +60,17 @@ public class PublisherController {
                 "Successfully created publisher",
                new PublisherResponse(created.getId(), created.getName(), created.getEmail())
             ));
-    }
+    }  
 
-    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> delete(@PathVariable("id") UUID id) {
+        Publisher exists = this.repository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Could not find publisher with specified id"));
+
+        this.repository.deleteById(id);
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(new Response("Successfully deleted publisher with specified id", null));
+    }
 }

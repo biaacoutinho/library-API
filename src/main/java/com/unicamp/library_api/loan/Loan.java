@@ -1,11 +1,13 @@
 package com.unicamp.library_api.loan;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.unicamp.library_api.author.Author;
 import com.unicamp.library_api.book.Book;
 import com.unicamp.library_api.reader.Reader;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +34,12 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(name = "loan_date", nullable = false)
+    private LocalDateTime loanDate;
+
+    @Column(name = "return_date", nullable = false)
+    private LocalDateTime returnDate;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
