@@ -69,6 +69,10 @@ public class LoanController {
                 .body(new Response("Could not find reader with specified CPF", null));
 
         Book book = optionalBook.get();
+        
+        book.setBorrowed(true);
+        bookRepository.save(book);
+
         Reader reader = optionalReader.get();
 
         Loan newLoan = new Loan(book, reader);
